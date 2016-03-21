@@ -8,8 +8,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.abc.acctmgmt.model.Account;
+import org.abc.acctmgmt.model.Transaction;
 
 public class AccountServiceFileImpl implements AccountService {
 	final String file = "C:/Dev/AccountData/account.txt";
@@ -57,7 +59,7 @@ public class AccountServiceFileImpl implements AccountService {
 		}
 	}
 
-	public void printStatement() {
+	public List<Transaction> printStatement() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line = null;
@@ -82,6 +84,8 @@ public class AccountServiceFileImpl implements AccountService {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		
+		return null;
 	}
 
 	/**

@@ -1,6 +1,9 @@
 package org.abc.acctmgmt.service;
 
+import java.util.List;
+
 import org.abc.acctmgmt.model.Account;
+import org.abc.acctmgmt.model.Transaction;
 
 public interface AccountService {
 	
@@ -8,7 +11,7 @@ public interface AccountService {
 
 	void load(Account acct);
 
-	void printStatement();
+	List<Transaction> printStatement();
 
 	void printStatement(String month);
 

@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.abc.acctmgmt.model.Account;
@@ -41,7 +43,7 @@ public class AccountServiceDBImpl implements AccountService {
 			int rows = stmt.executeUpdate(query);
 
 			stmt.close();
-			
+
 			System.out.println("Rows inserted=" + rows);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,12 +64,14 @@ public class AccountServiceDBImpl implements AccountService {
 	}
 
 	@Override
-	public void printStatement() {
+	public List<Transaction> printStatement() {
 		Connection conn = null;
 
 		Properties connectionProps = new Properties();
 		connectionProps.put("user", "sowji");
 		connectionProps.put("password", "sowji");
+		
+		List<Transaction> list = null;
 
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/acctmgmt?useSSL=false", connectionProps);
@@ -77,13 +81,27 @@ public class AccountServiceDBImpl implements AccountService {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 
+			list = new ArrayList<Transaction>();
+
 			while (rs.next()) {
+
+				Transaction txn = new Transaction();
+
 				int id = rs.getInt(1);
 				int csid = rs.getInt(2);
 				Date date = rs.getDate(3);
 				String desc = rs.getString(4);
 				float amt = rs.getFloat(5);
 				float bal = rs.getFloat(6);
+
+				txn.setId(id);
+				txn.setCustomerId(csid);
+				txn.setDate(date.toString());
+				txn.setDescription(desc);
+				txn.setAmount(amt);
+				txn.setBalance(bal);
+
+				list.add(txn);
 
 				System.out.println(id + "," + csid + "," + date + "," + desc + "," + amt + "," + bal);
 			}
@@ -99,6 +117,8 @@ public class AccountServiceDBImpl implements AccountService {
 				e.printStackTrace();
 			}
 		}
+		
+		return list;
 	}
 
 	@Override
@@ -113,3 +133,5 @@ public class AccountServiceDBImpl implements AccountService {
 
 	}
 }
+
+

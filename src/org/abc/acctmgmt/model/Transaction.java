@@ -1,6 +1,7 @@
 package org.abc.acctmgmt.model;
 
 public class Transaction {
+	int id;
 	int customerId;
 	String date;
 	String description;
@@ -17,6 +18,14 @@ public class Transaction {
 		amount = amt;
 	}
 
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public int getCustomerId() {
 		return customerId;
